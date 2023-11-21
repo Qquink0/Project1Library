@@ -2,6 +2,7 @@ package org.project1.library.models;
 
 public class Book {
 
+    private int bookId;
     private String nameBook;
     private String author;
     private int year;
@@ -9,10 +10,19 @@ public class Book {
     public Book() {
     }
 
-    public Book(String nameBook, String author, int year) {
+    public Book(int bookId, String nameBook, String author, int year) {
+        this.bookId = bookId;
         this.nameBook = nameBook;
         this.author = author;
         this.year = year;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
     public String getNameBook() {

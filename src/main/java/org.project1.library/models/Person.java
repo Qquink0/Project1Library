@@ -2,15 +2,25 @@ package org.project1.library.models;
 
 public class Person {
 
+    private int personId;
     private String name;
     private int year;
 
     public Person() {
     }
 
-    public Person(String name, int year) {
+    public Person(int personId,String name, int year) {
+        this.personId = personId;
         this.name = name;
         this.year = year;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
     public String getName() {

@@ -22,7 +22,7 @@ import java.util.Objects;
 @Configuration
 @ComponentScan("org.project1.library")
 @EnableWebMvc
-@PropertySource("classpath:database.properties.origin")
+@PropertySource("classpath:database.properties")
 public class Config implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
