@@ -21,4 +21,9 @@ public class PersonDAO {
     public List<Person> index() {
         return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
     }
+
+    public void save(Person person) {
+        jdbcTemplate.update("INSERT INTO Person(person_name, person_year) VALUES (?, ?)",
+                person.getPerson_name(), person.getPerson_year());
+    }
 }
