@@ -7,7 +7,7 @@
 <body>
 
 <form accept-charset="UTF-8" th:method="POST" th:action="@{/books}" th:object="${book}" >
-  <label  for="name">Введите название книги: </label>
+  <label for="name">Введите название книги: </label>
   <input type="text" th:field="*{book_name}" id="name"/>
   <br/>
   <label for="author">Введите автора: </label>
