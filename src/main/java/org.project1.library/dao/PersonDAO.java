@@ -1,5 +1,6 @@
 package org.project1.library.dao;
 
+import org.project1.library.models.Book;
 import org.project1.library.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -35,5 +36,14 @@ public class PersonDAO {
     public void update(int id, Person person) {
         jdbcTemplate.update("UPDATE Person SET person_name=?, person_year=? WHERE person_id=?",
                 person.getPerson_name(), person.getPerson_year(), id);
+    }
+
+    public List<Book> join(int id) {
+        return jdbcTemplate.query("select book_name, book_author, book_year from person" +
+                " join book b on person.person_id = b.person_id where b.person_id=" + id, new BeanPropertyRowMapper<>(Book.class));
+    }
+
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM Person WHERE person_id=?", id);
     }
 }
