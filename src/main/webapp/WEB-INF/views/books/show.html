@@ -9,9 +9,9 @@
 
 <div th:if="${!people.isEmpty()}">
     <a>Эта книга свободна. Кому назначить ее?</a>
-    <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getBookId()})}">
+    <form th:method="PATCH" th:action="@{/books/{id}/set(id=${book.getBookId()})}">
         <label for="person">Выберите человека</label>
-        <select th:object="${person}" th:field="*{person_name}" id="person">
+        <select th:object="${person}" th:field="*{person_id}" id="person">
             <option th:each="person1 : ${people}" th:value="${person1.getPerson_id()}" th:text="${person1.getPerson_name()}"></option>
         </select>
     </form>
