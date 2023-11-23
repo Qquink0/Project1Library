@@ -1,6 +1,7 @@
 package org.project1.library.dao;
 
 import org.project1.library.models.Book;
+import org.project1.library.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,5 +36,11 @@ public class BookDAO {
     public void update(int id, Book book) {
         jdbcTemplate.update("UPDATE Book SET book_name=?, book_author=?, book_year=? WHERE book_id=?",
                 book.getBook_name(), book.getBook_author(), book.getBook_year(), id);
+    }
+
+    public Person join(int id) {
+        return jdbcTemplate.query("select person_name from person" +
+                " join book b on person.person_id = b.person_id where b.book_id=?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 }

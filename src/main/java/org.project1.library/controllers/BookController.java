@@ -1,7 +1,9 @@
 package org.project1.library.controllers;
 
 import org.project1.library.dao.BookDAO;
+import org.project1.library.dao.PersonDAO;
 import org.project1.library.models.Book;
+import org.project1.library.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
 
     private final BookDAO bookDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public BookController(BookDAO bookDAO) {
+    public BookController(BookDAO bookDAO, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
+        this.personDAO = personDAO;
     }
 
     @GetMapping
@@ -45,5 +49,17 @@ public class BookController {
     public String update(@ModelAttribute("book")Book book, @PathVariable("id")int id) {
         bookDAO.update(id, book);
         return "redirect:/books";
+    }
+
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id")int id, Model model) {
+        model.addAttribute("book", bookDAO.show(id));
+        if (bookDAO.join(id) != null) {
+            model.addAttribute("person", bookDAO.join(id));
+        } else {
+            model.addAttribute("people", personDAO.index());
+            model.addAttribute("person", new Person());
+        }
+        return "books/show";
     }
 }
