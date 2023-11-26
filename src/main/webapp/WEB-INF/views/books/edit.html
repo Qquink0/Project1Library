@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form accept-charset="UTF-8" th:method="PATCH" th:action="@{/books/{id}(id=${book.getBookId()})}" th:object="${book}" >
+<form accept-charset="UTF-8" th:method="PATCH" th:action="@{/books/{id}(id=${book.getBookId()})}" th:object="${book}">
     <label for="name">Введите название книги: </label>
     <input type="text" th:field="*{book_name}" id="name"/>
     <br/>

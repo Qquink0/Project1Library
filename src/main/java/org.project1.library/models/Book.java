@@ -10,8 +10,8 @@ public class Book {
     public Book() {
     }
 
-    public Book(int book_id, String book_name, String book_author, int book_year) {
-        this.book_id = book_id;
+    public Book(int bookId, String book_name, String book_author, int book_year) {
+        this.book_id = bookId;
         this.book_name = book_name;
         this.book_author = book_author;
         this.book_year = book_year;

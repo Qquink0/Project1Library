@@ -29,37 +29,49 @@ public class BookController {
     }
 
     @GetMapping("/new")
-    public String newBook(@ModelAttribute("book")Book book) {
+    public String newBook(@ModelAttribute("book") Book book) {
         return "books/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("book")Book book) {
+    public String create(@ModelAttribute("book") Book book) {
         bookDAO.save(book);
         return "redirect:/books";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id")int id) {
+    public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("book", bookDAO.show(id));
         return "books/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("book")Book book, @PathVariable("id")int id) {
+    public String update(@ModelAttribute("book") Book book, @PathVariable("id") int id) {
         bookDAO.update(id, book);
         return "redirect:/books";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id")int id, Model model) {
+    public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", bookDAO.show(id));
-        if (bookDAO.join(id) != null) {
-            model.addAttribute("person", bookDAO.join(id));
-        } else {
-            model.addAttribute("people", personDAO.index());
-            model.addAttribute("person", new Person());
-        }
+
+        model.addAttribute("personWithBook", bookDAO.join(id));
+
+        model.addAttribute("people", personDAO.index());
+        model.addAttribute("person", new Person());
+
         return "books/show";
+    }
+
+    @PatchMapping("/{id}/set")
+    public String set(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
+        bookDAO.set(id, person);
+        return "redirect:/books/{id}";
+    }
+
+    @PatchMapping("/{id}/clear")
+    public String clear(@PathVariable("id") int id) {
+        bookDAO.clear(id);
+        return "redirect:/books/{id}";
     }
 }

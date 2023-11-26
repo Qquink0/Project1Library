@@ -40,7 +40,15 @@ public class BookDAO {
 
     public Person join(int id) {
         return jdbcTemplate.query("select person_name from person" +
-                " join book b on person.person_id = b.person_id where b.book_id=?", new Object[]{id},
+                        " join book b on person.person_id = b.person_id where b.book_id=?", new Object[]{id},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+    }
+
+    public void set(int id, Person person) {
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE book_id=?", person.getPerson_id(), id);
+    }
+
+    public void clear(int id) {
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE book_id=?", null, id);
     }
 }
