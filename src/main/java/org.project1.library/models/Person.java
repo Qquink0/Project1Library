@@ -1,9 +1,16 @@
 package org.project1.library.models;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Person {
 
     private int person_id;
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String person_name;
+    @Min(value = 1900, message = "Age should be greater than 1900")
     private int person_year;
 
     public Person() {

@@ -1,8 +1,11 @@
 package org.project1.library.models;
 
+import javax.validation.constraints.NotEmpty;
+
 public class Book {
 
     private int book_id;
+    @NotEmpty(message = "Name should not be empty")
     private String book_name;
     private String book_author;
     private int book_year;

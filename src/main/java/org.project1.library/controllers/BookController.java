@@ -7,7 +7,10 @@ import org.project1.library.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/books")
@@ -34,7 +37,8 @@ public class BookController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("book") Book book) {
+    public String create(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "books/new";
         bookDAO.save(book);
         return "redirect:/books";
     }
@@ -46,7 +50,8 @@ public class BookController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("book") Book book, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("book") @Valid Book book, @PathVariable("id") int id, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "books/edit";
         bookDAO.update(id, book);
         return "redirect:/books";
     }
@@ -61,6 +66,12 @@ public class BookController {
         model.addAttribute("person", new Person());
 
         return "books/show";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id) {
+        bookDAO.delete(id);
+        return "redirect:/books";
     }
 
     @PatchMapping("/{id}/set")
