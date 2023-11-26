@@ -2,6 +2,7 @@ package org.project1.library.controllers;
 
 import org.project1.library.dao.PersonDAO;
 import org.project1.library.models.Person;
+import org.project1.library.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,12 @@ import javax.validation.Valid;
 public class PeopleController {
 
     private final PersonDAO personDAO;
+    private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO) {
+    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
+        this.personValidator = personValidator;
     }
 
     @GetMapping
@@ -35,6 +38,8 @@ public class PeopleController {
     @PostMapping(produces = "text/html; charset=UTF-8")
     public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
 
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "people/new";
         }
@@ -50,8 +55,12 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person, @PathVariable("id") int id, BindingResult bindingResult) {
+    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, @PathVariable("id") int id) {
+
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) return "people/edit";
+
         personDAO.update(id, person);
         return "redirect:/people";
     }
